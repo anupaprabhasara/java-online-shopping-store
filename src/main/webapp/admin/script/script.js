@@ -30,7 +30,7 @@ function closeDeleteModal() {
 function confirmDelete() {
     if (currentDeleteId) {
         console.log(`Deleting record ${currentDeleteId}`);
-        window.location.href = 'admin?action=delete&id=' + currentDeleteId;
+        window.location.href = '?action=delete&id=' + currentDeleteId;
     }
     closeDeleteModal();
 }

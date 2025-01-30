@@ -25,45 +25,62 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>John</td>
-                    <td>Doe</td>
-                    <td>john.doe@example.com</td>
-                    <td>password123</td>
-                    <td>+123456789</td>
-                    <td>Admin</td>
-                    <td class="actions">
-                        <button class="btn btn-primary" onclick="openEditModal()">Edit</button>
-                        <button class="btn btn-danger" onclick="showDeleteModal(1)">Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Jane</td>
-                    <td>Smith</td>
-                    <td>jane.smith@example.com</td>
-                    <td>securepass</td>
-                    <td>+987654321</td>
-                    <td>User</td>
-                    <td class="actions">
-                        <button class="btn btn-primary" onclick="openEditModal()">Edit</button>
-                        <button class="btn btn-danger" onclick="showDeleteModal(2)">Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Michael</td>
-                    <td>Johnson</td>
-                    <td>michael.j@example.com</td>
-                    <td>mypassword</td>
-                    <td>+1122334455</td>
-                    <td>User</td>
-                    <td class="actions">
-                        <button class="btn btn-primary" onclick="openEditModal()">Edit</button>
-                        <button class="btn btn-danger" onclick="showDeleteModal(3)">Delete</button>
-                    </td>
-                </tr>
+            	<c:forEach var="user" items="${users}">
+            		<!-- Edit User Modal -->
+					<div id="editModal" class="modal-overlay" style="display: none;">
+					    <div class="modal">
+					        <div class="modal-header">
+					            <h2>Edit User</h2>
+					            <button class="btn btn-danger" onclick="closeEditModal()">&times;</button>
+					        </div>
+					        <form id="editUserForm" action="user" method="get" enctype="multipart/form-data">
+					        	<input type="hidden" name="action" value="edit">
+            					<input type="hidden" name="id" value="${user.id}">
+					            <div class="form-group">
+					                <label class="form-label">First Name</label>
+					                <input type="text" class="form-input" name="firstName" value="${user.firstName}">
+					            </div>
+					            <div class="form-group">
+					                <label class="form-label">Last Name</label>
+					                <input type="text" class="form-input" name="lastName" value="${user.lastName}">
+					            </div>
+					            <div class="form-group">
+					                <label class="form-label">Email</label>
+					                <input type="email" class="form-input" name="email" value="${user.email}">
+					            </div>
+					            <div class="form-group">
+					                <label class="form-label">Phone Number</label>
+					                <input type="text" class="form-input" name="phoneNumber" value="${user.phoneNumber}">
+					            </div>
+					            <div class="form-group">
+					                <label class="form-label">User Type</label>
+					                <select class="form-input" name="userType">
+					                    <option value="User" ${user.userType == 'User' ? 'selected' : ''}>User</option>
+					                    <option value="Admin" ${user.userType == 'Admin' ? 'selected' : ''}>Admin</option>
+					                </select>
+					            </div>
+					            <div class="form-group">
+					                <label class="form-label">Password</label>
+					                <input type="password" class="form-input" name="password" value="${user.password}">
+					            </div>
+					            <button type="submit" class="btn btn-primary">Update User</button>
+					        </form>
+					    </div>
+					</div>
+	                <tr>
+	                    <td>${user.id}</td>
+	                    <td>${user.firstName}</td>
+	                    <td>${user.lastName}</td>
+	                    <td>${user.email}</td>
+	                    <td>${user.password}</td>
+	                    <td>${user.phoneNumber}</td>
+	                    <td>${user.userType}</td>
+	                    <td class="actions">
+	                        <button class="btn btn-primary" onclick="openEditModal()">Edit</button>
+	                        <button class="btn btn-danger" onclick="showDeleteModal(${user.id})">Delete</button>
+	                    </td>
+	                </tr>
+                </c:forEach>
             </tbody>
         </table>
     </div>
@@ -105,46 +122,6 @@
                 <input type="password" class="form-input" name="password">
             </div>
             <button type="submit" class="btn btn-primary">Create User</button>
-        </form>
-    </div>
-</div>
-
-<!-- Edit User Modal -->
-<div id="editModal" class="modal-overlay" style="display: none;">
-    <div class="modal">
-        <div class="modal-header">
-            <h2>Edit User</h2>
-            <button class="btn btn-danger" onclick="closeEditModal()">&times;</button>
-        </div>
-        <form id="editUserForm">
-            <div class="form-group">
-                <label class="form-label">First Name</label>
-                <input type="text" class="form-input" name="firstName">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Last Name</label>
-                <input type="text" class="form-input" name="lastName">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Email</label>
-                <input type="email" class="form-input" name="email">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Phone Number</label>
-                <input type="text" class="form-input" name="phoneNumber">
-            </div>
-            <div class="form-group">
-                <label class="form-label">User Type</label>
-                <select class="form-input" name="userType">
-                    <option value="User">User</option>
-                    <option value="Admin">Admin</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Password</label>
-                <input type="password" class="form-input" name="password">
-            </div>
-            <button type="submit" class="btn btn-primary">Update User</button>
         </form>
     </div>
 </div>
