@@ -8,7 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 
-@WebServlet("/user")
+@WebServlet("/admin/user")
 public class UserServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private UserService userService;
@@ -21,11 +21,22 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Check if the user is logged in
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("admin") == null) {
+            // User is not logged in, redirect to login page
+            response.sendRedirect("login");
+            return;
+        }
+
+        request.setAttribute("firstName", session.getAttribute("firstName"));
+        request.setAttribute("lastName", session.getAttribute("lastName"));
+        
         String action = request.getParameter("action");
 
         if (action == null) {
             request.setAttribute("users", userService.getAllUsers());
-            request.getRequestDispatcher("admin/manageUser.jsp").forward(request, response);
+            request.getRequestDispatcher("manageUser.jsp").forward(request, response);
         } else if (action.equals("create")) {
             // Create a new user via GET request
             String firstName = request.getParameter("firstName");
@@ -76,7 +87,7 @@ public class UserServlet extends HttpServlet {
             int id = Integer.parseInt(request.getParameter("id"));
             User user = userService.getUser(id);
             request.setAttribute("user", user);
-            request.getRequestDispatcher("user/manageUser.jsp").forward(request, response);
+            request.getRequestDispatcher("manageUser.jsp").forward(request, response);
         } else if (action.equals("delete")) {
             int id = Integer.parseInt(request.getParameter("id"));
             if (userService.deleteUser(id)) {
@@ -84,6 +95,10 @@ public class UserServlet extends HttpServlet {
             } else {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
+        } else if (action.equals("logout")) {
+            // Logout the user
+            session.invalidate(); // Invalidate the session to log the user out
+            response.sendRedirect("login"); // Redirect to the login page
         }
     }
 

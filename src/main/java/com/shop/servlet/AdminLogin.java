@@ -25,7 +25,7 @@ public class AdminLogin extends HttpServlet {
         // Check if session already exists
         HttpSession session = request.getSession(false);
         if (session != null && session.getAttribute("admin") != null) {
-            response.sendRedirect(request.getContextPath() + "/admin");
+            response.sendRedirect("user");
             return;
         }
 
@@ -41,11 +41,11 @@ public class AdminLogin extends HttpServlet {
             session.setMaxInactiveInterval(30 * 60); // Session expires after 30 minutes
 
             // Redirect to the dashboard
-            response.sendRedirect(request.getContextPath() + "/admin");
+            response.sendRedirect("user");
         } else {
             // Authentication failed, redirect back to login page with error
             request.setAttribute("error", "Invalid email/username or password");
-            request.getRequestDispatcher("/admin/loginPage.jsp").forward(request, response);
+            request.getRequestDispatcher("loginPage.jsp").forward(request, response);
         }
     }
 
@@ -53,7 +53,7 @@ public class AdminLogin extends HttpServlet {
         for (User user : userService.getAllUsers()) {
             if ((user.getEmail().equalsIgnoreCase(identifier) || user.getFirstName().equalsIgnoreCase(identifier))
                     && user.getPassword().equals(password)
-                    && user.getUserType().equals("admin")) {
+                    && user.getUserType().equals("Admin")) {
                 return user;
             }
         }
@@ -66,10 +66,10 @@ public class AdminLogin extends HttpServlet {
         HttpSession session = request.getSession(false);
         if (session != null && session.getAttribute("admin") != null) {
             // Redirect authenticated user to the dashboard
-            response.sendRedirect(request.getContextPath() + "/admin");
+            response.sendRedirect("user");
         } else {
             // Redirect to login page
-            request.getRequestDispatcher("/admin/loginPage.jsp").forward(request, response);
+            request.getRequestDispatcher("loginPage.jsp").forward(request, response);
         }
     }
 }

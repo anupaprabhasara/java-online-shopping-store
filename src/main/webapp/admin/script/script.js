@@ -7,12 +7,12 @@ function closeCreateModal() {
     document.getElementById('createModal').style.display = 'none';
 }
 
-function openEditModal() {
-    document.getElementById('editModal').style.display = 'flex';
+function openEditModal(userId) {
+    document.getElementById('editModal' + userId).style.display = 'flex';
 }
 
-function closeEditModal() {
-    document.getElementById('editModal').style.display = 'none';
+function closeEditModal(userId) {
+    document.getElementById('editModal' + userId).style.display = 'none';
 }
 
 let currentDeleteId = null;

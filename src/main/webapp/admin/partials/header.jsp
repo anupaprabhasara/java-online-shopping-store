@@ -24,7 +24,7 @@
             </div>
             <div class="user-profile">
                 <span class="admin-name"><%= firstName %> <%= lastName %></span>
-                <button class="btn btn-danger" onclick="window.location.href='admin?action=logout';">Logout</button>
+                <button class="btn btn-danger" onclick="window.location.href='?action=logout';">Logout</button>
             </div>
         </div>
     </nav>
