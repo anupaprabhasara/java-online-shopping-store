@@ -4,6 +4,14 @@
 
 <%@ include file="./partials/header.jsp"%>
 
+<style>
+	.nav-link.userButton {
+	  color: var(--accent);
+	}
+</style>
+
+<%@ include file="./partials/middle.jsp"%>
+
 <main class="container main-content">
     <div class="page-header">
         <h1>User Management</h1>
